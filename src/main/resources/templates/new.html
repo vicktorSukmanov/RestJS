@@ -22,15 +22,18 @@
 <form th:method="POST" th:action="@{/admin}" th:object="${user}">
     <label for="name">Name:</label>
     <input type="text" th:field="*{username}" id="name"/>
+    <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error</div>
     <br/>
     <label for="lastName">Lastname:</label>
     <input type="text" th:field="*{lastName}" id="lastName"/>
     <br/>
     <label for="email">Email:</label>
     <input type="text" th:field="*{email}" id="email"/>
+    <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error</div>
     <br/>
-    <label for="lastName">Password:</label>
+    <label for="password">Password:</label>
     <input type="text" th:field="*{password}" id="password"/>
+    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</div>
     <br/>
     <label>Roles:
         <input type="checkbox" name="t_role"

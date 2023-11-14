@@ -22,12 +22,14 @@
 <form th:method="POST" th:action="@{/admin/{id}(id=${user.getId()})}" th:object="${user}">
     <label for="name">Name:</label>
     <input type="text" th:field="*{username}" id="name"/>
+    <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error</div>
     <br/>
     <label for="lastName">Lastname:</label>
     <input type="text" th:field="*{lastName}" id="lastName"/>
     <br/>
     <label for="email">Email:</label>
     <input type="text" th:field="*{email}" id="email"/>
+    <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error</div>
     <br/>
     <br/>
     <label for="email">Password:</label>
