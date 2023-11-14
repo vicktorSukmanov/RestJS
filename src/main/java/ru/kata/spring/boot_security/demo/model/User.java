@@ -27,6 +27,9 @@ public class User implements UserDetails {
 
     @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "age")
+    private int age;
     @NotEmpty(message = "Email should not be empty")
     @Email(message = "Email should be valid")
     @Column(name = "email")
@@ -48,6 +51,22 @@ public class User implements UserDetails {
         this.username = username;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public Long getId() {

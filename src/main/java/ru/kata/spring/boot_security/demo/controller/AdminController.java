@@ -15,6 +15,7 @@ import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -26,10 +27,12 @@ public class AdminController {
     RoleRepository roleRepository;
 
     @GetMapping(value = "/admin")
-    public String getAllUser(Model model) {
+    public String getAllUser(Model model, Principal principal) {
+        User user = (User) userService.loadUserByUsername(principal.getName());
         List<User> users = userService.getListUser();
         model.addAttribute("users", users);
-        return "users";
+        model.addAttribute("this_user", user);
+        return "11";
     }
 
     @GetMapping(value = "admin/new")
