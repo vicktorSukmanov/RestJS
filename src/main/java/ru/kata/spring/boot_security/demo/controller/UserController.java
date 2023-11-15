@@ -15,10 +15,12 @@ import java.util.List;
 
 @Controller
 public class UserController {
+
     @Autowired
-    UserService userService;
+    private UserService userService;
+
     @Autowired
-    RoleRepository roleRepository;
+    private RoleRepository roleRepository;
 
     @GetMapping(value = "/user")
     public String getUser(Principal principal, Model model) {

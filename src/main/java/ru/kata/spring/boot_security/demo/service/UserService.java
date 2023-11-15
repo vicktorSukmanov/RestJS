@@ -22,12 +22,12 @@ import java.util.List;
 public class UserService implements UserDetailsService {
     @PersistenceContext
     private EntityManager entityManager;
+
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+
     @Autowired
-    RoleRepository roleRepository;
-    @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     @Override
