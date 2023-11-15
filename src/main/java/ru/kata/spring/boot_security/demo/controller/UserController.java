@@ -19,12 +19,13 @@ public class UserController {
     UserService userService;
     @Autowired
     RoleRepository roleRepository;
+
     @GetMapping(value = "/user")
     public String getUser(Principal principal, Model model) {
         User user = (User) userService.loadUserByUsername(principal.getName());
-        List<Role> roles =  roleRepository.findAll();
+        List<Role> roles = roleRepository.findAll();
         model.addAttribute("this_user", user);
-        model.addAttribute("roles",roles);
-        return "12";
+        model.addAttribute("roles", roles);
+        return "user";
     }
 }

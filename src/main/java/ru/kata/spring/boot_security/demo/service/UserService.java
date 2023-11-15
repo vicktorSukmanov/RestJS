@@ -15,7 +15,8 @@ import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.*;
+import java.util.Optional;
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -39,7 +40,7 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<User> getListUser() {
         return userRepository.findAll();
     }
@@ -49,7 +50,7 @@ public class UserService implements UserDetailsService {
         User userFromDB = userRepository.findByUsername(user.getUsername());
 
         if (userFromDB != null) {
-           return false;
+            return false;
         }
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -57,7 +58,7 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public User readUser(long id) {
         Optional<User> userFromDb = userRepository.findById(id);
         return userFromDb.orElse(new User());

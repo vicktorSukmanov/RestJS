@@ -6,7 +6,15 @@ import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
+import javax.persistence.FetchType;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Table;
+import javax.persistence.Entity;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -34,9 +42,6 @@ public class User implements UserDetails {
     @Email(message = "Email should be valid")
     @Column(name = "email")
     private String email;
-
-//    @NotEmpty(message = "Password should not be empty")
-//    @Size(min = 2, max = 30, message = "Password should be between 2 and 30 characters")
     @Column(name = "password")
     private String password;
     @Fetch(FetchMode.SUBSELECT)
