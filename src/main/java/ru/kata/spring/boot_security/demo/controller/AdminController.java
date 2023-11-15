@@ -52,8 +52,9 @@ public class AdminController {
            model.addAttribute("this_user", this_user);
            return "11";
        }
-        userService.createUser(user);
-        return "redirect:/admin";
+        if(userService.createUser(user)){
+            return "redirect:/admin";
+        } else {return "userexist";}
     }
 
 //    @GetMapping("admin/edit/")

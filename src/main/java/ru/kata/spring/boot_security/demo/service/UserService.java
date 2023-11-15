@@ -45,15 +45,16 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void createUser(User user) {
+    public boolean createUser(User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
 
         if (userFromDB != null) {
-            throw new UsernameNotFoundException("User already exists!");
+           return false;
         }
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        return true;
     }
 
     @Transactional
