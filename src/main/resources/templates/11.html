@@ -98,7 +98,7 @@
                       <td>
 
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="${'#delete' + user.getId()}">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" th:data-target="${'#delete' + user.getId()}">
                           Delete
                         </button>
 
@@ -147,45 +147,50 @@
                                 </button>
                               </div>
                               <div class="modal-body">
-
+                                <div class="container mt-2 col-sm-8 text-center">
 
                                 <div class="form-group">
-                                  <label for="exampleInputID">ID</label>
+                                  <label for="exampleInputID"><b>ID</b></label>
                                   <input name="id" disabled="true" type="text" th:value="*{id}" class="form-control form-control-sm" id="exampleInputID" aria-describedby="IDHelp" placeholder="Enter ID">
                                 </div>
                                 <div class="form-group">
-                                  <label for="username">Username</label>
+                                  <label for="username"><b>First name</b></label>
                                   <input name="username" type="text" th:value="*{username}" class="form-control form-control-sm" id="username" placeholder="Enter username">
                                  <!-- <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name error</div>-->
                                 </div>
                                 <div class="form-group">
-                                  <label for="age">Age</label>
+                                  <label for="lastName"><b>Last name</b></label>
+                                  <input name="lastName" type="text" th:value="*{lastName}" class="form-control form-control-sm" id="lastName" placeholder="Enter username">
+                                  <!-- <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name error</div>-->
+                                </div>
+                                <div class="form-group">
+                                  <label for="age"><b>Age</b></label>
                                   <input name="age" type="text" th:value="*{age}" class="form-control form-control-sm" id="age" aria-describedby="ageHelp" placeholder="Enter age">
 <!--                                  <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age error</div>-->
                                 </div>
                                 <div class="form-group">
-                                  <label for="email">Email</label>
+                                  <label for="email"><b>Email</b></label>
                                   <input name="email" type="text" th:value="*{email}" class="form-control form-control-sm" id="email" aria-describedby="emailHelp" placeholder="Enter email">
 <!--                                  <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>-->
                                 </div>
                                 <div class="form-group">
-                                  <label for="password">Password</label>
-                                  <input name="password" type="text" th:value="*{password}" class="form-control form-control-sm" id="password" aria-describedby="passwordHelp" placeholder="Enter password">
+                                  <label for="password"><b>Password</b></label>
+                                  <input name="password" type="text"  class="form-control form-control-sm" id="password" aria-describedby="passwordHelp" placeholder="Enter password">
 <!--                                  <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>-->
                                 </div>
                                 <div class="form-group">
-                                  <label>Role</label>
-                                  <br/>
-                                  <label>
-                                    <input type="checkbox" name="roleAdmin" th:value="ADMIN" th:text="Admin">
-                                  </label>
-                                  <label>
-                                    <input type="checkbox" name="roleUser" checked="checked" th:value="USER" th:text="User">
-                                  </label>
+                                  <label><b>Role</b></label>
+                                  <select multiple class="custom-select" size="2" id="rolesUserModal" th:name="roles" required>
+                                      <option th:each="role : ${roles}" th:value="${role.id}">
+                                        <th:block th:text="${role.name}"></th:block>
+                                      </option>
+                                    </select>
+
+                                </div>
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                  <button type="submit" class="btn btn-primary">Save changes</button>
+                                  <button type="submit" class="btn btn-primary">Edit</button>
                                 </div>
 
 
@@ -197,8 +202,10 @@
                         </div>
                       </div>
 
+
+
                       <!-- Modal Delete -->
-                      <div class="modal fade" th:id="${'delete' + user.getId()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal fade" th:id="${'delete' + user.getId()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" th:object="${user}">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -208,29 +215,34 @@
                               </button>
                             </div>
                             <div class="modal-body">
-
-                              <form th:method="DELETE" th:action="@{/admin/{id}(id=${user.getId()})}">
+                              <div class="container mt-2 col-sm-8 text-center">
+                              <form th:method="POST" th:action=@{/admin/delete/{id}(id=${user.getId()})}>
                                 <div class="form-group">
                                   <label for="idDelete">ID</label>
                                   <input disabled="true" th:value="${user.getId()}" readonly type="email" class="form-control form-control-sm" id="idDelete" aria-describedby="emailHelp" placeholder="Enter ID">
                                 </div>
                                 <div class="form-group">
-                                  <label for="usernameDelete">Username</label>
+                                  <label for="usernameDelete">First name</label>
                                   <input disabled="true" th:value="${user.getUsername()}" readonly type="text" class="form-control form-control-sm" id="usernameDelete" placeholder="Username">
                                 </div>
                                 <div class="form-group">
-                                  <label for="ageDelete">Age</label>
-                                  <input disabled="true" th:value="${user.getUsername()}" type="email" class="form-control form-control-sm" id="ageDelete" aria-describedby="emailHelp" placeholder="Enter email">
+                                  <label for="lastNameDelete">Last name</label>
+                                  <input disabled="true" th:value="${user.getLastName()}" readonly type="text" class="form-control form-control-sm" id="lastNameDelete" placeholder="Username">
                                 </div>
                                 <div class="form-group">
-                                  <label for="emailDelete">Email</label>
-                                  <input disabled="true" th:value="${user.getEmail()}" type="email" class="form-control form-control-sm" id="emailDelete" aria-describedby="emailHelp" placeholder="Enter email">
+                                  <label for="ageDelete"><b>Age</b></label>
+                                  <input disabled="true" th:value="${user.getAge()}" readonly type="email" class="form-control form-control-sm" id="ageDelete" aria-describedby="emailHelp" placeholder="Enter email">
                                 </div>
                                 <div class="form-group">
-                                  <label for="roleDelete">Role</label>
-                                  <select disabled="true" multiple class="form-control form-control-sm" id="roleDelete">
-                                    <option name="roleAdmin" th:checked="${ADMIN}" th:value="ADMIN">ADMIN</option>
-                                    <option name="roleUser" th:checked="${USER}" th:value="USER">USER</option>
+                                  <label for="emailDelete"><b>Email</b></label>
+                                  <input disabled="true" th:value="${user.getEmail()}" readonly type="email" class="form-control form-control-sm" id="emailDelete" aria-describedby="emailHelp" placeholder="Enter email">
+                                </div>
+                                <div class="form-group">
+                                  <label><b>Role</b></label>
+                                  <select multiple class="custom-select" size="2" id="rolesUserDelet" th:name="roles" readonly required>
+                                    <option th:each="role : ${roles}" th:value="${role.id}">
+                                      <th:block th:text="${role.name}"></th:block>
+                                    </option>
                                   </select>
                                 </div>
                                 <div class="modal-footer">
@@ -240,7 +252,7 @@
                               </form>
 
                             </div>
-
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -254,46 +266,54 @@
             </div>
 
           </div>
+
+
+
+           <!--страница добавления User-->
           <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-
-
-
             <div class="card">
               <div class="card-header">
                 <h3>Add new user</h3>
               </div>
               <div class="card-body">
                 <blockquote class="blockquote mb-0">
+                  <div class="container mt-2 col-sm-4 text-center">
                   <form th:method="POST" th:action="@{/admin}" th:object="${user}">
                     <div class="form-group">
-                      <label for="usernameAdd">Username</label>
+                      <label for="usernameAdd"><b>First name</b></label>
                       <input name="username" type="text" class="form-control form-control-sm" id="usernameAdd" placeholder="username">
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputEmail1">Age</label>
-                      <input name="age" type="text" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                      <label for="lastNameAdd"><b>Last name</b></label>
+                      <input name="username" type="text" class="form-control form-control-sm" id="lastNameAdd" placeholder="username">
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputEmail2">Email</label>
+                      <label for="exampleInputEmail1"><b>Age</b></label>
+                      <input name="age" type="number" step="1" min="1" max="200" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputEmail2"><b>Email</b></label>
                       <input name="email" type="email" class="form-control form-control-sm" id="exampleInputEmail2" aria-describedby="emailHelp" placeholder="Enter email">
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputEmail3">Password</label>
+                      <label for="exampleInputEmail3"><b>Password</b></label>
                       <input name="password" type="password" class="form-control form-control-sm" id="exampleInputEmail3" aria-describedby="emailHelp" placeholder="Enter email">
                     </div>
+                    <span><b>Role</b></span>
+                    </br>
                     <div class="form-group">
-                      <label>Role</label>
-                      <br/>
-                      <label>
-                        <input type="checkbox" name="roleAdmin" th:value="ADMIN" th:text="Admin">
-                      </label>
-                      <label>
-                        <input type="checkbox" name="roleUser" th:value="USER" th:text="User">
-                      </label>
+
+
+                         <select multiple class="custom-select" size="2" id="rolesUser" th:name="roles" required>
+                          <option th:each="role : ${roles}" th:value="${role.id}">
+                           <th:block th:text="${role.name}"></th:block>
+                          </option>
+                           </select>
                     </div>
 
-                    <button type="submit" class="btn btn-success">Успех</button>
+                    <button type="submit" class="btn btn-success">Add new user</button>
                   </form>
+                    </div>
 
 
                 </blockquote>
@@ -301,15 +321,11 @@
             </div>
 
           </div>
-        </div>
 
 
+          <!--страница User-->
 
-      </div>
       <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-
-
-
 
         <h1>User information-page</h1>
 
