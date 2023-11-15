@@ -22,9 +22,10 @@ import java.util.List;
 public class AdminController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
+
     @Autowired
-    RoleRepository roleRepository;
+    private RoleRepository roleRepository;
 
     @GetMapping(value = "/admin")
     public String getAllUser(Model model, Principal principal) {
