@@ -34,41 +34,45 @@ public class AdminController {
         return "11";
     }
 
-    @GetMapping(value = "admin/new")
-    public String getNewUser(Model model) {
-        model.addAttribute(new User());
-        List<Role> roles =  roleRepository.findAll();
-        model.addAttribute("roles", roles);
-        return "new";
-
-    }
+//    @GetMapping(value = "admin/new")
+//    public String getNewUser(Model model) {
+//        model.addAttribute(new User());
+//        List<Role> roles =  roleRepository.findAll();
+//        model.addAttribute("roles", roles);
+//        return "new";
+//
+//    }
 
     @PostMapping("/admin")
-    public String createUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
+    public String createUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model, Principal principal) {
        if (bindingResult.hasErrors()){
            List<Role> roles =  roleRepository.findAll();
+           User this_user = (User) userService.loadUserByUsername(principal.getName());
            model.addAttribute("roles", roles);
-           return "redirect:/admin";
+           model.addAttribute("this_user", this_user);
+           return "11";
        }
         userService.createUser(user);
         return "redirect:/admin";
     }
 
-    @GetMapping("admin/edit/")
-    public String getUpdateUser(@RequestParam("id") long id, Model model) {
-        model.addAttribute("user", userService.readUser(id));
-        List<Role> roles =  roleRepository.findAll();
-        model.addAttribute("roles", roles);
-
-        return "edit";
-    }
+//    @GetMapping("admin/edit/")
+//    public String getUpdateUser(@RequestParam("id") long id, Model model) {
+//        model.addAttribute("user", userService.readUser(id));
+//        List<Role> roles =  roleRepository.findAll();
+//        model.addAttribute("roles", roles);
+//
+//        return "edit";
+//    }
 
     @PostMapping("admin/{id}")
-    public String updateUser(Model model, @ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
+    public String updateUser( @ModelAttribute("user") @Valid User user, BindingResult bindingResult, Principal principal, Model model) {
+        if(bindingResult.hasErrors()){
             List<Role> roles =  roleRepository.findAll();
+            User this_user = (User) userService.loadUserByUsername(principal.getName());
             model.addAttribute("roles", roles);
-            return "edit";
+            model.addAttribute("this_user", this_user);
+            return "11";
         }
         userService.updateUser(user);
         return "redirect:/admin";
