@@ -28,13 +28,13 @@ public class AdminRestController {
         return new ResponseEntity<>(userService.readUser(id),HttpStatus.OK);
     }
 
-    @GetMapping("/user")
+    @GetMapping("user")
     public ResponseEntity<User> getAuthUser(Principal principal){
         User user =(User) userService.loadUserByUsername(principal.getName());
         return new ResponseEntity<>(user,HttpStatus.OK);
     }
 
-    @PostMapping("/add")
+    @PostMapping()
     public ResponseEntity<HttpStatus> addUser(@RequestBody User user){
         userService.createUser(user);
         return new  ResponseEntity<>(HttpStatus.OK);
