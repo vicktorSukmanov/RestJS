@@ -12,7 +12,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/")
 public class AdminRestController {
 
     @Autowired
@@ -23,7 +23,7 @@ public class AdminRestController {
         return new ResponseEntity<>(userService.getListUser(), HttpStatus.OK);
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<User> getUser(@PathVariable("id") int id){
         return new ResponseEntity<>(userService.readUser(id),HttpStatus.OK);
     }
@@ -34,20 +34,20 @@ public class AdminRestController {
         return new ResponseEntity<>(user,HttpStatus.OK);
     }
 
-    @PostMapping("/user")
-    public ResponseEntity<HttpStatus> addUser(@ResponseBody User user){
+    @PostMapping("/add")
+    public ResponseEntity<HttpStatus> addUser(@RequestBody User user){
         userService.createUser(user);
         return new  ResponseEntity<>(HttpStatus.OK);
 
     }
 
-    @PatchMapping("/user")
-    public ResponseEntity<HttpStatus> updateUser(@ResponseBody User user){
+    @PatchMapping()
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody  User user){
         userService.updateUser(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") int id ){
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.OK);

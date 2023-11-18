@@ -35,7 +35,7 @@ public class AdminController {
         model.addAttribute("users", users);
         model.addAttribute("this_user", user);
         model.addAttribute("roles", roles);
-        return "admin";
+        return "adminJS";
     }
 
 
