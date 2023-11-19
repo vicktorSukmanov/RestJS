@@ -36,15 +36,17 @@ public class AdminRestController {
 
     @PostMapping()
     public ResponseEntity<HttpStatus> addUser(@RequestBody User user){
-        userService.createUser(user);
+        if (userService.createUser(user)){
         return new  ResponseEntity<>(HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
 
     @PatchMapping()
     public ResponseEntity<HttpStatus> updateUser(@RequestBody  User user){
-        userService.updateUser(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+       if (userService.updateUser(user)) {
+           return new ResponseEntity<>(HttpStatus.OK);
+       } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("{id}")

@@ -45,7 +45,7 @@ function getAuthUser(){
         <a className="text-light" href="/logout">Logout</a>
     </form>
       `
-    })
+    }).catch()
 }
 
 
@@ -83,7 +83,7 @@ function getAuthUser(){
                     document.getElementById('passwordNew').value = '';
                     document.getElementById('nav-home-tab').click()
                     getAllUsers();
-                }
+                } else {alert("A user with this name already exists!!!")}
             })
     })
 // }
@@ -145,6 +145,10 @@ async function editUser() {
             'Content-Type': 'application/json;charset=UTF-8'
         },
         body: JSON.stringify(user)
+    }).then((respons) => {
+        if (!respons.ok){
+            alert("A user with this name already exists!!!")
+        }
     });
      closeModal()
      getAllUsers()
