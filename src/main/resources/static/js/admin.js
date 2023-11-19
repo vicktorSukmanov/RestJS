@@ -47,7 +47,6 @@ function getAuthUser() {
 }
 
 
-// function newUserTab() {
 document.getElementById('newUserForm').addEventListener('submit', (e) => {
     e.preventDefault()
     let role = document.getElementById('rolesNew')
@@ -86,7 +85,6 @@ document.getElementById('newUserForm').addEventListener('submit', (e) => {
         })
 })
 
-// }
 
 function closeModal() {
     document.querySelectorAll(".btn-close").forEach((btn) => btn.click())
@@ -203,12 +201,7 @@ function getUserPage() {
 
 
 function informationAboutUser(user) {
-    // user.roles.map(r => {
-    //     if (r.name.replace('ROLE_', '') === 'ADMIN') {
-    //         getAllUsers()
-    //         // newUserTab()
-    //     }
-    // })
+
     document.getElementById('userTableBody').innerHTML = `<tr>
             <td>${user.id}</td>
             <td>${user.username}</td>
