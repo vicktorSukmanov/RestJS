@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repository.RoleRepository;
+
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import javax.persistence.EntityManager;
@@ -74,11 +74,11 @@ public class UserService implements UserDetailsService {
     @Transactional
     public boolean updateUser(User user) {
         User userDB = readUser(user.getId());
-        if((userDB.getUsername()).equals(user.getUsername())) {
+        if ((userDB.getUsername()).equals(user.getUsername())) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             userRepository.save(user);
             return true;
-        } else if ( userDB != userRepository.findByUsername(user.getUsername())){
+        } else if (userDB != userRepository.findByUsername(user.getUsername())) {
             return false;
         } else {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));

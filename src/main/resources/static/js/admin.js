@@ -10,8 +10,6 @@ function getAllUsers() {
 }
 
 
-
-
 function loadTable(listAllUsers) {
     let res = ``;
     for (let user of listAllUsers) {
@@ -22,7 +20,7 @@ function loadTable(listAllUsers) {
                 <td>${user.lastName}</td>
                 <td>${user.age}</td>
                 <td>${user.email}</td>
-            <td>${user.roles.map(r=>r.name)}</td>
+            <td>${user.roles.map(r => r.name)}</td>
                 <td>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal"
                     onclick="editModal(${user.id})">Edit</button></td>
@@ -35,11 +33,11 @@ function loadTable(listAllUsers) {
 
 }
 
-function getAuthUser(){
+function getAuthUser() {
     let url2 = url + 'user'
-    fetch(url2).then(response => response.json()).then((userA)=>{
+    fetch(url2).then(response => response.json()).then((userA) => {
         document.getElementById('adminData').innerHTML = ` 
-        <p style="color: aliceblue " className="navbar-brand text-white" >${userA.username} with Role: ${userA.roles.map(r=>r.name)}</p>
+        <p style="color: aliceblue " className="navbar-brand text-white" >${userA.username} with Role: ${userA.roles.map(r => r.name)}</p>
 
     <form className="form-inline">
         <a className="text-light" href="/logout">Logout</a>
@@ -49,43 +47,45 @@ function getAuthUser(){
 }
 
 
-
 // function newUserTab() {
-   document.getElementById('newUserForm').addEventListener('submit', (e) => {
-        e.preventDefault()
-        let role = document.getElementById('rolesNew')
-        let rolesAddUser = []
-        for (let i = 0; i < role.options.length; i++) {
-            if (role.options[i].selected) {
-                rolesAddUser.push({id: role.options[i].value, name})
-            }
+document.getElementById('newUserForm').addEventListener('submit', (e) => {
+    e.preventDefault()
+    let role = document.getElementById('rolesNew')
+    let rolesAddUser = []
+    for (let i = 0; i < role.options.length; i++) {
+        if (role.options[i].selected) {
+            rolesAddUser.push({id: role.options[i].value, name})
         }
-       fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify({
-                username: document.getElementById('usernameAdd').value,
-                lastName: document.getElementById('lastNameAdd').value,
-                age: document.getElementById('ageNew').value,
-                email: document.getElementById('emailNew').value,
-                password: document.getElementById('passwordNew').value,
-                roles: rolesAddUser
-            })
+    }
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify({
+            username: document.getElementById('usernameAdd').value,
+            lastName: document.getElementById('lastNameAdd').value,
+            age: document.getElementById('ageNew').value,
+            email: document.getElementById('emailNew').value,
+            password: document.getElementById('passwordNew').value,
+            roles: rolesAddUser
         })
-            .then((response) => {
-                if (response.ok) {
-                    document.getElementById('usernameAdd').value = '';
-                    document.getElementById('lastNameAdd').value = '';
-                    document.getElementById('ageNew').value = '';
-                    document.getElementById('emailNew').value = '';
-                    document.getElementById('passwordNew').value = '';
-                    document.getElementById('nav-home-tab').click()
-                    getAllUsers();
-                } else {alert("A user with this name already exists!!!")}
-            })
     })
+        .then((response) => {
+            if (response.ok) {
+                document.getElementById('usernameAdd').value = '';
+                document.getElementById('lastNameAdd').value = '';
+                document.getElementById('ageNew').value = '';
+                document.getElementById('emailNew').value = '';
+                document.getElementById('passwordNew').value = '';
+                document.getElementById('nav-home-tab').click()
+                getAllUsers();
+            } else {
+                alert("A user with this name already exists!!!")
+            }
+        })
+})
+
 // }
 
 function closeModal() {
@@ -146,12 +146,12 @@ async function editUser() {
         },
         body: JSON.stringify(user)
     }).then((respons) => {
-        if (!respons.ok){
+        if (!respons.ok) {
             alert("A user with this name already exists!!!")
         }
     });
-     closeModal()
-     getAllUsers()
+    closeModal()
+    getAllUsers()
 
 }
 
@@ -190,15 +190,16 @@ async function deleteUser() {
     })
 
 }
+
 getAllUsers()
 getAuthUser()
+
 function getUserPage() {
     let url2 = url + 'user'
     fetch(url2).then(response => response.json()).then(user =>
-    informationAboutUser(user))
+        informationAboutUser(user))
 
 }
-
 
 
 function informationAboutUser(user) {

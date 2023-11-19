@@ -14,11 +14,11 @@ function getInformation(user) {
             <td>${user.lastName}</td>
             <td>${user.age}</td>
             <td>${user.email}</td>
-            <td>${user.roles.map(r=>r.name)}</td>
+            <td>${user.roles.map(r => r.name)}</td>
         </tr>`;
 
     document.getElementById('userData').innerHTML = ` 
-        <p style="color: aliceblue " className="navbar-brand text-white" >${user.username} with Role: ${user.roles.map(r=>r.name)}</p>
+        <p style="color: aliceblue " className="navbar-brand text-white" >${user.username} with Role: ${user.roles.map(r => r.name)}</p>
 
     <form className="form-inline">
         <a className="text-light" href="/logout">Logout</a>
