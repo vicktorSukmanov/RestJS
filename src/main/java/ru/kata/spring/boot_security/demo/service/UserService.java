@@ -74,8 +74,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void updateUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        entityManager.merge(user);
-        entityManager.flush();
+        userRepository.save(user);
 
     }
 

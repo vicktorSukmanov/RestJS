@@ -32,6 +32,20 @@ function loadTable(listAllUsers) {
             </tr>`
     }
     document.getElementById('tableBodyAdmin').innerHTML = res;
+
+}
+
+function getAuthUser(){
+    let url2 = url + 'user'
+    fetch(url2).then(response => response.json()).then((user)=>{
+        document.getElementById('adminData').innerHTML = ` 
+        <p style="color: aliceblue " className="navbar-brand text-white" >${user.username} with Role: ${user.roles.map(r=>r.name)}</p>
+
+    <form className="form-inline">
+        <a className="text-light" href="/logout">Logout</a>
+    </form>
+      `
+    })
 }
 
 
@@ -172,11 +186,15 @@ async function deleteUser() {
 
 }
 getAllUsers()
+getAuthUser()
 function getUserPage() {
     let url2 = url + 'user'
     fetch(url2).then(response => response.json()).then(user =>
     informationAboutUser(user))
+
 }
+
+
 
 function informationAboutUser(user) {
     // user.roles.map(r => {
