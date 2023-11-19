@@ -30,7 +30,7 @@
 
 <nav id="adminData" class="navbar navbar-dark bg-dark">
 
-   
+
 
 </nav>
 
@@ -175,14 +175,10 @@
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label><b>Role</b></label>
-                                                                        <select multiple class="custom-select" size="2"
-                                                                                id="rolesUserModal" th:name="roles"
-                                                                                required>
-                                                                            <option th:each="role : ${roles}"
-                                                                                    th:value="${role.id}">
-                                                                                <th:block
-                                                                                        th:text="${role.name}"></th:block>
-                                                                            </option>
+                                                                        <select id="rolesEdit" multiple class="custom-select" size="2"
+                                                                                name="roles" aria-label="size 2 select ">
+                                                                            <option value="2">ROLE_ADMIN</option>
+                                                                            <option value="1">ROLE_USER</option>
                                                                         </select>
 
                                                                     </div>
@@ -274,7 +270,7 @@
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label><b>Role</b></label>
-                                                                        <select id="rolesDelete" multiple class="form-select" size="3"
+                                                                        <select id="rolesDelete" multiple class="custom-select" size="2"
                                                                                 name="roles" aria-label="size 2 select example">
                                                                             <option value="1">ROLE_ADMIN</option>
                                                                             <option value="2">ROLE_USER</option>
@@ -350,10 +346,10 @@
                                             </br>
                                             <div class="form-group">
 
-                                                <select id="rolesNew" multiple class="form-select" size="3"
+                                                <select id="rolesNew" multiple class="custom-select" size="2"
                                                         name="roles" aria-label="size 2 select example">
-                                                    <option value="1">ROLE_ADMIN</option>
-                                                    <option value="2">ROLE_USER</option>
+                                                    <option value="2">ROLE_ADMIN</option>
+                                                    <option value="1">ROLE_USER</option>
                                                 </select>
                                             </div>
 

@@ -20,58 +20,58 @@ import java.util.List;
 
 @Controller
 public class AdminController {
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @GetMapping(value = "/admin")
-    public String getAllUser(Model model, Principal principal) {
-        User user = (User) userService.loadUserByUsername(principal.getName());
-        List<User> users = userService.getListUser();
-        List<Role> roles = roleRepository.findAll();
-        model.addAttribute("users", users);
-        model.addAttribute("this_user", user);
-        model.addAttribute("roles", roles);
-        return "adminJS";
-    }
-
-
-    @PostMapping("/admin")
-    public String createUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model, Principal principal) {
-        if (bindingResult.hasErrors()) {
-            List<Role> roles = roleRepository.findAll();
-            User this_user = (User) userService.loadUserByUsername(principal.getName());
-            model.addAttribute("roles", roles);
-            model.addAttribute("this_user", this_user);
-            return "admin";
-        }
-        if (userService.createUser(user)) {
-            return "redirect:/admin";
-        } else {
-            return "userexist";
-        }
-    }
-
-    @PostMapping("admin/{id}")
-    public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Principal principal, Model model) {
-        if (bindingResult.hasErrors()) {
-            List<Role> roles = roleRepository.findAll();
-            User this_user = (User) userService.loadUserByUsername(principal.getName());
-            model.addAttribute("roles", roles);
-            model.addAttribute("this_user", this_user);
-            return "admin";
-        }
-        userService.updateUser(user);
-        return "redirect:/admin";
-    }
-
-    @PostMapping("admin/delete/{id}")
-    public String deleteUser(@PathVariable("id") long id) {
-        userService.deleteUser(id);
-        return "redirect:/admin";
-    }
+//
+//    @Autowired
+//    private UserService userService;
+//
+//    @Autowired
+//    private RoleRepository roleRepository;
+//
+//    @GetMapping(value = "/admin")
+//    public String getAllUser(Model model, Principal principal) {
+//        User user = (User) userService.loadUserByUsername(principal.getName());
+//        List<User> users = userService.getListUser();
+//        List<Role> roles = roleRepository.findAll();
+//        model.addAttribute("users", users);
+//        model.addAttribute("this_user", user);
+//        model.addAttribute("roles", roles);
+//        return "adminJS";
+//    }
+//
+//
+//    @PostMapping("/admin")
+//    public String createUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model, Principal principal) {
+//        if (bindingResult.hasErrors()) {
+//            List<Role> roles = roleRepository.findAll();
+//            User this_user = (User) userService.loadUserByUsername(principal.getName());
+//            model.addAttribute("roles", roles);
+//            model.addAttribute("this_user", this_user);
+//            return "admin";
+//        }
+//        if (userService.createUser(user)) {
+//            return "redirect:/admin";
+//        } else {
+//            return "userexist";
+//        }
+//    }
+//
+//    @PostMapping("admin/{id}")
+//    public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Principal principal, Model model) {
+//        if (bindingResult.hasErrors()) {
+//            List<Role> roles = roleRepository.findAll();
+//            User this_user = (User) userService.loadUserByUsername(principal.getName());
+//            model.addAttribute("roles", roles);
+//            model.addAttribute("this_user", this_user);
+//            return "admin";
+//        }
+//        userService.updateUser(user);
+//        return "redirect:/admin";
+//    }
+//
+//    @PostMapping("admin/delete/{id}")
+//    public String deleteUser(@PathVariable("id") long id) {
+//        userService.deleteUser(id);
+//        return "redirect:/admin";
+//    }
 
 }

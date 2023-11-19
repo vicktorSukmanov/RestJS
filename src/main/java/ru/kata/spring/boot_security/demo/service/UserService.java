@@ -73,9 +73,16 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void updateUser(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-
+        User userDB = readUser(user.getId());
+        if((userDB.getUsername()).equals(user.getUsername())) {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+        } else if ( userDB != userRepository.findByUsername(user.getUsername())){
+            throw new UsernameNotFoundException("A user with the same name already exists!!!");
+        } else {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+        }
     }
 
 

@@ -37,9 +37,9 @@ function loadTable(listAllUsers) {
 
 function getAuthUser(){
     let url2 = url + 'user'
-    fetch(url2).then(response => response.json()).then((user)=>{
+    fetch(url2).then(response => response.json()).then((userA)=>{
         document.getElementById('adminData').innerHTML = ` 
-        <p style="color: aliceblue " className="navbar-brand text-white" >${user.username} with Role: ${user.roles.map(r=>r.name)}</p>
+        <p style="color: aliceblue " className="navbar-brand text-white" >${userA.username} with Role: ${userA.roles.map(r=>r.name)}</p>
 
     <form className="form-inline">
         <a className="text-light" href="/logout">Logout</a>
@@ -121,7 +121,8 @@ async function editUser() {
     let ageValue = document.getElementById('age').value;
     let emailValue = document.getElementById('email').value;
     let passwordValue = document.getElementById('password').value;
-    let role = document.getElementById('rolesUserModal')
+    let role = document.getElementById('rolesEdit')
+    console.log(role)
     let listOfRole = []
     for (let i = 0; i < role.options.length; i++) {
         if (role.options[i].selected) {
