@@ -4,7 +4,15 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
@@ -18,43 +26,45 @@ public class AdminRestController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     @GetMapping()
-    public ResponseEntity<List<User>> getAllUser(){
+    public ResponseEntity<List<User>> getAllUser() {
         return new ResponseEntity<>(userService.getListUser(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<User> getUser(@PathVariable("id") int id){
-        return new ResponseEntity<>(userService.readUser(id),HttpStatus.OK);
+    public ResponseEntity<User> getUser(@PathVariable("id") int id) {
+        return new ResponseEntity<>(userService.readUser(id), HttpStatus.OK);
     }
 
     @GetMapping("user")
-    public ResponseEntity<User> getAuthUser(Principal principal){
-        User user =(User) userService.loadUserByUsername(principal.getName());
-        return new ResponseEntity<>(user,HttpStatus.OK);
+    public ResponseEntity<User> getAuthUser(Principal principal) {
+        User user = (User) userDetailsService.loadUserByUsername(principal.getName());
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<HttpStatus> addUser(@RequestBody User user){
-        if (userService.createUser(user)){
-        return new  ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<HttpStatus> addUser(@RequestBody User user) {
+        if (userService.createUser(user)) {
+            return new ResponseEntity<>(HttpStatus.OK);
         } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
     }
 
     @PatchMapping()
-    public ResponseEntity<HttpStatus> updateUser(@RequestBody  User user){
-       if (userService.updateUser(user)) {
-           return new ResponseEntity<>(HttpStatus.OK);
-       } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody User user) {
+        if (userService.updateUser(user)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") int id ){
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") int id) {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
 
 }

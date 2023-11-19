@@ -43,7 +43,7 @@ function getAuthUser() {
         <a className="text-light" href="/logout">Logout</a>
     </form>
       `
-    }).catch()
+    })
 }
 
 
