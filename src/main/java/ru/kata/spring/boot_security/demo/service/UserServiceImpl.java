@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
+import ru.kata.spring.boot_security.demo.util.UserNameExistsException;
+import ru.kata.spring.boot_security.demo.util.UserNotFoundException;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -32,7 +34,7 @@ public class UserServiceImpl implements UserService {
         User userFromDB = userRepository.findByUsername(user.getUsername());
 
         if (userFromDB != null) {
-            return false;
+            throw new UserNameExistsException("A user with this name already exists!!!");
         }
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -44,13 +46,13 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public User readUser(long id) {
         Optional<User> userFromDb = userRepository.findById(id);
-        return userFromDb.orElseThrow(EntityNotFoundException::new);
+        return userFromDb.orElseThrow(UserNotFoundException::new);
     }
 
     @Override
     @Transactional
     public void deleteUser(long id) {
-
+        readUser(id);
         userRepository.deleteById(id);
 
     }
@@ -64,12 +66,18 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
             return true;
         } else if (null != userRepository.findByUsername(user.getUsername())) {
-            return false;
+            throw new UserNameExistsException("A user with this name already exists!!!");
         } else {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             userRepository.save(user);
             return true;
         }
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
 
