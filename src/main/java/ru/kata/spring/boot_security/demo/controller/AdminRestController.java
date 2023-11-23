@@ -1,7 +1,7 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 
-import org.modelmapper.ModelMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.kata.spring.boot_security.demo.dto.UserDTO;
+import ru.kata.spring.boot_security.demo.mapper.Mapper;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.util.UserErrorResponse;
@@ -38,23 +39,26 @@ public class AdminRestController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private Mapper mapper;
+
 
     @GetMapping()
     public ResponseEntity<List<UserDTO>> getAllUser() {
         List<User> userList = userService.getListUser();
-        List<UserDTO> userDTOList = userList.stream().map(user -> convertToUserDTO(user)).toList();
+        List<UserDTO> userDTOList = userList.stream().map(user -> mapper.convertToUserDTO(user)).toList();
         return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable("id") int id) {
-        UserDTO userDTO = convertToUserDTO(userService.readUser(id));
+        UserDTO userDTO = mapper.convertToUserDTO(userService.readUser(id));
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
     @GetMapping("user")
     public ResponseEntity<UserDTO> getAuthUser(Principal principal) {
-        UserDTO userDTO = convertToUserDTO(userService.findByUsername(principal.getName()));
+        UserDTO userDTO = mapper.convertToUserDTO(userService.findByUsername(principal.getName()));
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
@@ -70,13 +74,13 @@ public class AdminRestController {
             }
             throw new UserValidationException(error.toString());
         }
-        userService.createUser(convertToUser(userDTO));
+        userService.createUser(mapper.convertToUser(userDTO));
         return new ResponseEntity<>(HttpStatus.OK);
 
 
     }
 
-    @PatchMapping()
+    @PatchMapping
     public ResponseEntity<HttpStatus> updateUser(@RequestBody @Valid UserDTO userDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             StringBuilder messege = new StringBuilder();
@@ -87,7 +91,7 @@ public class AdminRestController {
             }
             throw new UserValidationException(error.toString());
         }
-        userService.updateUser(convertToUser(userDTO));
+        userService.updateUser(mapper.convertToUser(userDTO));
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
@@ -115,18 +119,6 @@ public class AdminRestController {
     private ResponseEntity<UserErrorResponse> handlerException(UserNameExistsException e) {
         UserErrorResponse userErrorResponse = new UserErrorResponse(e.getMessage());
         return new ResponseEntity<>(userErrorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    private User convertToUser(UserDTO userDTO) {
-        ModelMapper modelMapper = new ModelMapper();
-        User user = modelMapper.map(userDTO, User.class);
-        return user;
-    }
-
-    private UserDTO convertToUserDTO(User user) {
-        ModelMapper modelMapper = new ModelMapper();
-        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-        return userDTO;
     }
 
 

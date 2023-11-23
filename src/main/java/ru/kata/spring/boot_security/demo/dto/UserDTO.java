@@ -4,9 +4,7 @@ package ru.kata.spring.boot_security.demo.dto;
 import ru.kata.spring.boot_security.demo.model.Role;
 
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Set;
 
 public class UserDTO {
@@ -21,12 +19,14 @@ public class UserDTO {
 
     private String lastName;
 
-
+    @Min(value = 1, message ="Age must be from 1 to 150" )
+    @Max(value = 150,message ="Age must be from 1 to 150" )
     private int age;
+
     @NotEmpty(message = "Email should not be empty")
     @Email(message = "Email should be valid")
     private String email;
-
+    @NotEmpty(message = "Password should not be empty")
     private String password;
 
     private Set<Role> roles;

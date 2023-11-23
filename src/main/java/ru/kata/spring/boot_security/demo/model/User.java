@@ -15,9 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.persistence.Entity;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Collection;
 import java.util.Set;
 
@@ -36,12 +34,16 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
+    @Min(value = 1, message ="Age must be from 1 to 150" )
+    @Max(value = 150,message ="Age must be from 1 to 150" )
     @Column(name = "age")
     private int age;
     @NotEmpty(message = "Email should not be empty")
     @Email(message = "Email should be valid")
     @Column(name = "email")
     private String email;
+
+    @NotEmpty(message = "Password should not be empty")
     @Column(name = "password")
     private String password;
     @Fetch(FetchMode.SUBSELECT)

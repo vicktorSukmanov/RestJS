@@ -9,7 +9,7 @@ import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.util.UserNameExistsException;
 import ru.kata.spring.boot_security.demo.util.UserNotFoundException;
 
-import javax.persistence.EntityNotFoundException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public boolean updateUser(User user) throws EntityNotFoundException {
+    public boolean updateUser(User user) {
         User userDB = readUser(user.getId());
         if ((userDB.getUsername()).equals(user.getUsername())) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
